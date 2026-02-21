@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive analytics dashboard for Sidemen Among Us games featuring 57 players and comprehensive stats.">
+    <title>Among Us Analytics - Sidemen Edition</title>
+
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/charts.css">
+
+    <!-- Apache ECharts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+
+    <!-- View Transitions -->
+    <meta name="view-transition" content="same-origin">
+</head>
+<body>
+    <!-- Parallax Star Background -->
+    <div class="stars-container" aria-hidden="true">
+        <div class="stars stars-small"></div>
+        <div class="stars stars-medium"></div>
+        <div class="stars stars-large"></div>
+    </div>
+
+    <!-- Emergency Meeting Navigation -->
+    <nav class="emergency-nav" id="emergencyNav">
+        <button class="emergency-button" id="emergencyButton" aria-label="Open navigation menu" aria-expanded="false">
+            <span class="emergency-icon">!</span>
+        </button>
+        <div class="radial-menu" id="radialMenu" role="menu" aria-label="Main navigation">
+            <a href="#home" class="radial-item" role="menuitem" data-angle="0">
+                <span class="radial-icon">🏠</span>
+                <span class="radial-label">Home</span>
+            </a>
+            <a href="#leaderboard" class="radial-item" role="menuitem" data-angle="60">
+                <span class="radial-icon">🏆</span>
+                <span class="radial-label">Leaderboard</span>
+            </a>
+            <a href="#players" class="radial-item" role="menuitem" data-angle="120">
+                <span class="radial-icon">👥</span>
+                <span class="radial-label">Players</span>
+            </a>
+            <a href="#compare" class="radial-item" role="menuitem" data-angle="180">
+                <span class="radial-icon">⚖️</span>
+                <span class="radial-label">Compare</span>
+            </a>
+            <a href="#insights" class="radial-item" role="menuitem" data-angle="240">
+                <span class="radial-icon">📊</span>
+                <span class="radial-label">Insights</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="app">
+        <!-- Home Section -->
+        <section id="home" class="page page-home" data-page="home">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        <span class="title-word">AMONG</span>
+                        <span class="title-word">US</span>
+                        <span class="title-sub">ANALYTICS</span>
+                    </h1>
+                    <p class="hero-subtitle">Sidemen Edition</p>
+                    <div class="hero-stats" id="heroStats">
+                        <!-- Populated by JS -->
+                    </div>
+                    <div class="hero-actions">
+                        <a href="#leaderboard" class="btn btn-primary">View Leaderboard</a>
+                        <a href="#players" class="btn btn-secondary">Browse Players</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="crewmate-showcase" id="crewmateShowcase">
+                        <!-- Animated crewmates populated by JS -->
+                    </div>
+                </div>
+            </div>
+            <div class="quick-stats" id="quickStats">
+                <!-- Quick stat cards populated by JS -->
+            </div>
+        </section>
+
+        <!-- Leaderboard Section -->
+        <section id="leaderboard" class="page page-leaderboard" data-page="leaderboard" hidden>
+            <header class="page-header">
+                <h2 class="page-title">ELO Leaderboard</h2>
+                <p class="page-description">Player rankings based on comprehensive performance analysis</p>
+            </header>
+            <div class="leaderboard-controls">
+                <div class="control-group">
+                    <label for="sortMetric">Sort by:</label>
+                    <select id="sortMetric" class="select-input">
+                        <option value="elo">Overall ELO</option>
+                        <option value="imposter">Imposter Score</option>
+                        <option value="crewmate">Crewmate Score</option>
+                        <option value="games">Games Played</option>
+                        <option value="winrate">Win Rate</option>
+                        <option value="kdr">K/D Ratio</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="filterGames">Min Games:</label>
+                    <select id="filterGames" class="select-input">
+                        <option value="0">All Players</option>
+                        <option value="10">10+ Games</option>
+                        <option value="50">50+ Games</option>
+                        <option value="100">100+ Games</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="filterType">Show:</label>
+                    <select id="filterType" class="select-input">
+                        <option value="all">Everyone</option>
+                        <option value="sidemen">Sidemen Only</option>
+                        <option value="guests">Guests Only</option>
+                    </select>
+                </div>
+            </div>
+            <div class="chart-container" id="leaderboardChart"></div>
+            <div class="leaderboard-table-container">
+                <table class="leaderboard-table" id="leaderboardTable">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>ELO</th>
+                            <th>Games</th>
+                            <th>Win %</th>
+                            <th>Imp Score</th>
+                            <th>Crew Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Players Section -->
+        <section id="players" class="page page-players" data-page="players" hidden>
+            <header class="page-header">
+                <h2 class="page-title">Players</h2>
+                <p class="page-description">All 57 players from Sidemen Among Us sessions</p>
+            </header>
+            <div class="players-controls">
+                <div class="search-container">
+                    <input type="search" id="playerSearch" class="search-input" placeholder="Search players..." aria-label="Search players">
+                </div>
+                <div class="view-toggle">
+                    <button class="view-btn active" data-view="grid" aria-label="Grid view">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                            <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+                        </svg>
+                    </button>
+                    <button class="view-btn" data-view="list" aria-label="List view">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="3" y="4" width="18" height="4"/><rect x="3" y="10" width="18" height="4"/>
+                            <rect x="3" y="16" width="18" height="4"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="players-grid" id="playersGrid">
+                <!-- Player cards populated by JS -->
+            </div>
+        </section>
+
+        <!-- Player Detail Section -->
+        <section id="player" class="page page-player" data-page="player" hidden>
+            <header class="page-header">
+                <a href="#players" class="back-link">&larr; All Players</a>
+                <div class="player-header" id="playerHeader">
+                    <!-- Player info populated by JS -->
+                </div>
+            </header>
+            <div class="player-content">
+                <div class="player-stats-grid" id="playerStats">
+                    <!-- Detailed stats populated by JS -->
+                </div>
+                <div class="player-charts">
+                    <div class="chart-panel">
+                        <h3>Role Performance</h3>
+                        <div class="chart-container" id="playerRadar"></div>
+                    </div>
+                    <div class="chart-panel">
+                        <h3>Key Metrics</h3>
+                        <div class="chart-container" id="playerMetrics"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Compare Section -->
+        <section id="compare" class="page page-compare" data-page="compare" hidden>
+            <header class="page-header">
+                <h2 class="page-title">Head to Head</h2>
+                <p class="page-description">Compare two players side by side</p>
+            </header>
+            <div class="voting-screen">
+                <div class="voting-panel voting-left" id="votingLeft">
+                    <div class="voting-select">
+                        <select id="comparePlayer1" class="player-select">
+                            <option value="">Select Player 1</option>
+                        </select>
+                    </div>
+                    <div class="voting-player" id="compareDisplay1">
+                        <div class="voting-placeholder">
+                            <span>?</span>
+                            <p>Select a player</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="voting-vs">
+                    <span>VS</span>
+                </div>
+                <div class="voting-panel voting-right" id="votingRight">
+                    <div class="voting-select">
+                        <select id="comparePlayer2" class="player-select">
+                            <option value="">Select Player 2</option>
+                        </select>
+                    </div>
+                    <div class="voting-player" id="compareDisplay2">
+                        <div class="voting-placeholder">
+                            <span>?</span>
+                            <p>Select a player</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="comparison-stats" id="comparisonStats" hidden>
+                <!-- Comparison data populated by JS -->
+            </div>
+        </section>
+
+        <!-- Insights Section -->
+        <section id="insights" class="page page-insights" data-page="insights" hidden>
+            <header class="page-header">
+                <h2 class="page-title">Insights & Awards</h2>
+                <p class="page-description">Fun stats, trends, and superlatives</p>
+            </header>
+            <div class="awards-section">
+                <h3 class="section-title">Awards</h3>
+                <div class="awards-grid" id="awardsGrid">
+                    <!-- Awards populated by JS -->
+                </div>
+            </div>
+            <div class="charts-section">
+                <div class="chart-panel full-width">
+                    <h3>Win Rate Distribution</h3>
+                    <div class="chart-container" id="winRateScatter"></div>
+                </div>
+                <div class="chart-panel">
+                    <h3>Sidemen vs Guests</h3>
+                    <div class="chart-container" id="sidemenVsGuests"></div>
+                </div>
+                <div class="chart-panel">
+                    <h3>K/D Ratio Distribution</h3>
+                    <div class="chart-container" id="kdrDistribution"></div>
+                </div>
+            </div>
+            <div class="trends-section">
+                <h3 class="section-title">Trends & Observations</h3>
+                <div class="trend-cards" id="trendCards">
+                    <!-- Trend cards populated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-crewmate"></div>
+            <p class="loading-text">Loading data...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

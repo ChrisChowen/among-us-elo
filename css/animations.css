@@ -1,0 +1,581 @@
+/* ============================================
+   Among Us Analytics - Animations
+   Modern CSS features: scroll-driven animations,
+   View Transitions, @starting-style
+   ============================================ */
+
+/* ---------- Parallax Star Field ---------- */
+.stars-container {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-stars);
+    overflow: hidden;
+    background: linear-gradient(to bottom, var(--space-deep), var(--space-bg));
+}
+
+.stars {
+    position: absolute;
+    width: 100%;
+    height: 200%;
+    background-repeat: repeat;
+}
+
+/* Generate star patterns with radial gradients */
+.stars-small {
+    background-image:
+        radial-gradient(1px 1px at 10% 20%, white, transparent),
+        radial-gradient(1px 1px at 20% 50%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 30% 30%, white, transparent),
+        radial-gradient(1px 1px at 40% 70%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 50% 10%, white, transparent),
+        radial-gradient(1px 1px at 60% 80%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 70% 40%, white, transparent),
+        radial-gradient(1px 1px at 80% 60%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 90% 25%, white, transparent),
+        radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 25% 15%, white, transparent),
+        radial-gradient(1px 1px at 35% 55%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 45% 95%, white, transparent),
+        radial-gradient(1px 1px at 55% 35%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 65% 5%, white, transparent),
+        radial-gradient(1px 1px at 75% 75%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 85% 45%, white, transparent),
+        radial-gradient(1px 1px at 95% 65%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 5% 55%, white, transparent),
+        radial-gradient(1px 1px at 12% 42%, rgba(255,255,255,0.7), transparent);
+    background-size: 200px 200px;
+    animation: stars-scroll 100s linear infinite;
+}
+
+.stars-medium {
+    background-image:
+        radial-gradient(2px 2px at 15% 30%, rgba(56, 254, 220, 0.6), transparent),
+        radial-gradient(2px 2px at 35% 60%, rgba(237, 84, 186, 0.5), transparent),
+        radial-gradient(2px 2px at 55% 20%, rgba(255, 255, 255, 0.9), transparent),
+        radial-gradient(2px 2px at 75% 80%, rgba(56, 254, 220, 0.4), transparent),
+        radial-gradient(2px 2px at 95% 50%, rgba(255, 255, 255, 0.8), transparent),
+        radial-gradient(2px 2px at 25% 90%, rgba(237, 84, 186, 0.5), transparent),
+        radial-gradient(2px 2px at 45% 40%, rgba(255, 255, 255, 0.7), transparent),
+        radial-gradient(2px 2px at 65% 10%, rgba(56, 254, 220, 0.5), transparent),
+        radial-gradient(2px 2px at 85% 70%, rgba(255, 255, 255, 0.6), transparent),
+        radial-gradient(2px 2px at 5% 5%, rgba(237, 84, 186, 0.4), transparent);
+    background-size: 300px 300px;
+    animation: stars-scroll 150s linear infinite;
+}
+
+.stars-large {
+    background-image:
+        radial-gradient(3px 3px at 20% 40%, rgba(56, 254, 220, 0.8), transparent),
+        radial-gradient(3px 3px at 50% 70%, rgba(237, 84, 186, 0.7), transparent),
+        radial-gradient(3px 3px at 80% 20%, rgba(255, 255, 255, 1), transparent),
+        radial-gradient(3px 3px at 40% 10%, rgba(56, 254, 220, 0.6), transparent),
+        radial-gradient(3px 3px at 70% 90%, rgba(255, 255, 255, 0.9), transparent);
+    background-size: 400px 400px;
+    animation: stars-scroll 200s linear infinite;
+    animation-direction: reverse;
+}
+
+@keyframes stars-scroll {
+    from { transform: translateY(0); }
+    to { transform: translateY(-50%); }
+}
+
+/* Scroll-driven parallax (where supported) */
+@supports (animation-timeline: scroll()) {
+    .stars-small {
+        animation: stars-parallax linear;
+        animation-timeline: scroll();
+        animation-range: 0% 100%;
+    }
+
+    .stars-medium {
+        animation: stars-parallax-slow linear;
+        animation-timeline: scroll();
+        animation-range: 0% 100%;
+    }
+
+    .stars-large {
+        animation: stars-parallax-slower linear;
+        animation-timeline: scroll();
+        animation-range: 0% 100%;
+    }
+
+    @keyframes stars-parallax {
+        from { transform: translateY(0); }
+        to { transform: translateY(-20%); }
+    }
+
+    @keyframes stars-parallax-slow {
+        from { transform: translateY(0); }
+        to { transform: translateY(-10%); }
+    }
+
+    @keyframes stars-parallax-slower {
+        from { transform: translateY(0); }
+        to { transform: translateY(-5%); }
+    }
+}
+
+/* ---------- Emergency Button ---------- */
+.emergency-nav {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: var(--z-nav);
+}
+
+.emergency-button {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #e01515, #a00c0c);
+    border: 4px solid #ffd700;
+    box-shadow:
+        0 0 20px rgba(197, 17, 17, 0.5),
+        inset 0 -5px 15px rgba(0, 0, 0, 0.3),
+        inset 0 5px 10px rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    position: relative;
+}
+
+.emergency-button:hover {
+    transform: scale(1.1);
+    box-shadow:
+        0 0 40px rgba(197, 17, 17, 0.7),
+        inset 0 -5px 15px rgba(0, 0, 0, 0.3),
+        inset 0 5px 10px rgba(255, 255, 255, 0.2);
+}
+
+.emergency-button:active {
+    transform: scale(0.95);
+}
+
+.emergency-icon {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #ffd700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Radial Menu */
+.radial-menu {
+    position: absolute;
+    bottom: 50%;
+    right: 50%;
+    transform: translate(50%, 50%);
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.radial-item {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--panel-bg);
+    border: 2px solid var(--au-cyan);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--text-primary);
+    opacity: 0;
+    transform: scale(0) translate(0, 0);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    pointer-events: none;
+    backdrop-filter: blur(10px);
+}
+
+.radial-icon {
+    font-size: 1.25rem;
+}
+
+.radial-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+}
+
+.radial-item:hover {
+    background: var(--au-cyan);
+    color: var(--space-bg);
+    transform: scale(1.15) !important;
+}
+
+/* Menu Open State */
+.emergency-nav.open .radial-item {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.emergency-nav.open .radial-item[data-angle="0"] {
+    transform: scale(1) translate(0, -100px);
+}
+
+.emergency-nav.open .radial-item[data-angle="60"] {
+    transform: scale(1) translate(-87px, -50px);
+}
+
+.emergency-nav.open .radial-item[data-angle="120"] {
+    transform: scale(1) translate(-87px, 50px);
+}
+
+.emergency-nav.open .radial-item[data-angle="180"] {
+    transform: scale(1) translate(0, 100px);
+}
+
+.emergency-nav.open .radial-item[data-angle="240"] {
+    transform: scale(1) translate(87px, 50px);
+}
+
+/* @starting-style for menu entry */
+@supports (selector(:has(*))) {
+    .radial-item {
+        @starting-style {
+            opacity: 0;
+            transform: scale(0);
+        }
+    }
+}
+
+/* ---------- View Transitions ---------- */
+@view-transition {
+    navigation: auto;
+}
+
+/* Named transitions for pages */
+.page {
+    view-transition-name: page-content;
+}
+
+/* Vent animation for page transitions */
+::view-transition-old(page-content) {
+    animation: vent-out 0.4s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+::view-transition-new(page-content) {
+    animation: vent-in 0.4s cubic-bezier(0, 0, 0.2, 1) forwards;
+    animation-delay: 0.1s;
+}
+
+@keyframes vent-out {
+    0% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(0.8) translateY(20px);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.3) translateY(100px);
+    }
+}
+
+@keyframes vent-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) translateY(-100px);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(0.8) translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Fallback for browsers without View Transitions */
+@supports not (view-transition-name: page-content) {
+    .page {
+        animation: fade-in 0.3s ease;
+    }
+
+    @keyframes fade-in {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+}
+
+/* ---------- Scroll-Driven Card Animations ---------- */
+.player-card {
+    animation: card-reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 100%;
+}
+
+@keyframes card-reveal {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) rotateX(15deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+    }
+}
+
+/* Staggered animation for card lists using animation-delay */
+.player-card:nth-child(1) { animation-delay: 0ms; }
+.player-card:nth-child(2) { animation-delay: 50ms; }
+.player-card:nth-child(3) { animation-delay: 100ms; }
+.player-card:nth-child(4) { animation-delay: 150ms; }
+.player-card:nth-child(5) { animation-delay: 200ms; }
+.player-card:nth-child(6) { animation-delay: 250ms; }
+.player-card:nth-child(7) { animation-delay: 300ms; }
+.player-card:nth-child(8) { animation-delay: 350ms; }
+
+/* Award card scroll animation */
+.award-card {
+    animation: award-pop linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 80%;
+}
+
+@keyframes award-pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Stat card animation */
+.stat-card {
+    animation: stat-slide linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 100%;
+}
+
+@keyframes stat-slide {
+    0% {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ---------- Task Bar Progress Animation ---------- */
+.task-bar {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.task-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--au-lime), var(--au-cyan));
+    border-radius: 4px;
+    transform-origin: left;
+    animation: task-fill linear both;
+    animation-timeline: view();
+    animation-range: entry 20% entry 80%;
+}
+
+@keyframes task-fill {
+    0% {
+        transform: scaleX(0);
+    }
+    100% {
+        transform: scaleX(1);
+    }
+}
+
+/* ---------- Hero Animations ---------- */
+.title-word {
+    opacity: 0;
+    animation: title-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.title-word:nth-child(1) { animation-delay: 0.2s; }
+.title-word:nth-child(2) { animation-delay: 0.4s; }
+.title-sub { animation-delay: 0.6s; }
+
+@keyframes title-reveal {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) skewY(5deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) skewY(0);
+    }
+}
+
+.hero-subtitle,
+.hero-stats,
+.hero-actions {
+    opacity: 0;
+    animation: hero-fade 0.6s ease forwards;
+}
+
+.hero-subtitle { animation-delay: 0.8s; }
+.hero-stats { animation-delay: 1s; }
+.hero-actions { animation-delay: 1.2s; }
+
+@keyframes hero-fade {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- Table Row Animations ---------- */
+.leaderboard-table tbody tr {
+    animation: row-slide 0.4s ease both;
+}
+
+@keyframes row-slide {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Stagger rows */
+.leaderboard-table tbody tr:nth-child(1) { animation-delay: 0ms; }
+.leaderboard-table tbody tr:nth-child(2) { animation-delay: 30ms; }
+.leaderboard-table tbody tr:nth-child(3) { animation-delay: 60ms; }
+.leaderboard-table tbody tr:nth-child(4) { animation-delay: 90ms; }
+.leaderboard-table tbody tr:nth-child(5) { animation-delay: 120ms; }
+.leaderboard-table tbody tr:nth-child(6) { animation-delay: 150ms; }
+.leaderboard-table tbody tr:nth-child(7) { animation-delay: 180ms; }
+.leaderboard-table tbody tr:nth-child(8) { animation-delay: 210ms; }
+.leaderboard-table tbody tr:nth-child(9) { animation-delay: 240ms; }
+.leaderboard-table tbody tr:nth-child(10) { animation-delay: 270ms; }
+
+/* ---------- Crewmate Hover Effect ---------- */
+.player-avatar svg {
+    transition: transform 0.3s ease;
+}
+
+.player-card:hover .player-avatar svg {
+    transform: translateY(-5px);
+}
+
+/* ---------- Glow Pulse ---------- */
+@keyframes glow-pulse {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(56, 254, 220, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(56, 254, 220, 0.6);
+    }
+}
+
+.glow-animate {
+    animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* ---------- Voting Animation ---------- */
+.voting-panel {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.voting-panel.selected {
+    border-color: var(--au-cyan);
+    box-shadow: var(--glow-cyan);
+}
+
+/* ---------- Number Counter Animation ---------- */
+@property --num {
+    syntax: '<integer>';
+    initial-value: 0;
+    inherits: false;
+}
+
+.counter {
+    transition: --num 1s ease-out;
+    counter-reset: num var(--num);
+}
+
+.counter::after {
+    content: counter(num);
+}
+
+/* ---------- Floating Animation ---------- */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.float-animate {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* ---------- Comparison Bar Animation ---------- */
+.comparison-bar {
+    height: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 0.5rem 0;
+}
+
+.comparison-bar-fill {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.comparison-bar-fill.left {
+    background: linear-gradient(90deg, var(--au-cyan), var(--au-lime));
+}
+
+.comparison-bar-fill.right {
+    background: linear-gradient(90deg, var(--au-pink), var(--au-red));
+}
+
+/* ---------- Reduced Motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .stars-small,
+    .stars-medium,
+    .stars-large {
+        animation: none;
+    }
+
+    .player-card,
+    .award-card,
+    .stat-card,
+    .title-word,
+    .hero-subtitle,
+    .hero-stats,
+    .hero-actions,
+    .leaderboard-table tbody tr {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+
+    ::view-transition-old(page-content),
+    ::view-transition-new(page-content) {
+        animation: none;
+    }
+}

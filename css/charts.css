@@ -1,0 +1,197 @@
+/* ============================================
+   Among Us Analytics - Chart Styles
+   ============================================ */
+
+/* Chart Containers */
+.chart-container {
+    width: 100%;
+    min-height: 400px;
+    position: relative;
+}
+
+.chart-container.small {
+    min-height: 250px;
+}
+
+.chart-container.large {
+    min-height: 500px;
+}
+
+/* Loading state for charts */
+.chart-container.loading::after {
+    content: 'Loading chart...';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--panel-bg);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* ECharts tooltip customization */
+.echarts-tooltip {
+    background: var(--panel-bg) !important;
+    border: 1px solid var(--panel-border) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Chart panel styling */
+.chart-panel {
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--card-radius);
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+}
+
+.chart-panel h3 {
+    color: var(--au-cyan);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.chart-panel h3::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 1em;
+    background: var(--au-cyan);
+    border-radius: 2px;
+}
+
+/* Leaderboard Chart specific */
+#leaderboardChart {
+    min-height: 500px;
+}
+
+/* Radar chart container */
+#playerRadar {
+    min-height: 350px;
+}
+
+/* Scatter plot container */
+#winRateScatter {
+    min-height: 450px;
+}
+
+/* Chart legend customization */
+.chart-legend {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.legend-dot.sidemen {
+    background: var(--au-red);
+}
+
+.legend-dot.guests {
+    background: var(--au-cyan);
+}
+
+/* Chart empty state */
+.chart-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    color: var(--text-muted);
+}
+
+.chart-empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* Mini charts for cards */
+.mini-chart {
+    width: 100%;
+    height: 60px;
+}
+
+/* Inline stat bar */
+.stat-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.stat-bar-track {
+    flex: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.stat-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.6s ease;
+}
+
+.stat-bar-fill.cyan { background: var(--au-cyan); }
+.stat-bar-fill.red { background: var(--au-red); }
+.stat-bar-fill.lime { background: var(--au-lime); }
+.stat-bar-fill.pink { background: var(--au-pink); }
+.stat-bar-fill.orange { background: var(--au-orange); }
+
+.stat-bar-value {
+    min-width: 40px;
+    text-align: right;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Responsive charts */
+@media (max-width: 768px) {
+    .chart-container {
+        min-height: 300px;
+    }
+
+    #leaderboardChart {
+        min-height: 400px;
+    }
+
+    .chart-panel {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .chart-container {
+        min-height: 250px;
+    }
+
+    .chart-legend {
+        gap: 1rem;
+    }
+
+    .legend-item {
+        font-size: 0.75rem;
+    }
+}
